@@ -1,8 +1,8 @@
-import { useState,useEffect } from "react";
-interface MemberList{
-    memberId:number;
-    memberName:string;
-    memberType:string;
+import { useState, useEffect } from "react";
+interface MemberList {
+  memberId: number;
+  memberName: string;
+  memberType: string;
 }
 export default function MemberList() {
   const [MemberList, setMemberList] = useState<MemberList[]>([]);
@@ -17,49 +17,50 @@ export default function MemberList() {
       .then((response) => response.json())
       .then((data) => setMemberList(data));
   }, []);
-  if (MemberList.length === 0) {
-    return <div>Loading...</div>;
-  }
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 px-4">
-  <div className="flex justify-center items-center mb-6">
-    <h1 className="text-3xl font-bold">Member List</h1>
-  </div>
+    <div className="md:table-fixed max-w-7xl mx-auto mt-10 px-6 py-10 rounded-xl bg-white shadow-lg">
+      <div className="flex items-center justify-center gap-3 mb-6">
+        <div className="text-teal-600" />
+        <h1 className="text-5xl font-bold bg-linear-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent">
+          Member List
+        </h1>
+      </div>
 
-  <div className="overflow-x-auto">
-    <table className="min-w-full border border-gray-300 rounded-lg">
-      <thead className="bg-gray-100">
-        <tr>
-          <th className="border border-gray-300 px-4 py-2 text-center">
-            Member ID
-          </th>
-          <th className="border border-gray-300 px-4 py-2 text-center">
-            Member Name
-          </th>
-          <th className="border border-gray-300 px-4 py-2 text-center">
-            Member Type
-          </th>
-        </tr>
-      </thead>
+      <div className="overflow-x-auto">
+        <table className="w-full table-fixed border border-gray-300 rounded-lg">
+          <thead className="sticky top-0 bg-teal-700 text-white z-10">
+            <tr>
+              <th className="px-6 py-3 text-center font-semibold border border-gray-300">
+                Member Name
+              </th>
+              <th className="px-6 py-3 text-center font-semibold border border-gray-300">
+                Member Type
+              </th>
+            </tr>
+          </thead>
 
-      <tbody>
-        {MemberList.map((c) => (
-          <tr key={c.memberId} className="hover:bg-gray-50">
-            <td className="border border-gray-300 px-4 py-2 text-center">
-              {c.memberId}
-            </td>
-            <td className="border border-gray-300 px-4 py-2 text-center">
-              {c.memberName}
-            </td>
-            <td className="border border-gray-300 px-4 py-2 text-center">
-                {c.memberType}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-</div>
-  ); 
+          <tbody>
+            {MemberList.map((c, index) => (
+              <tr
+                key={c.memberId}
+                className={
+                  index % 2 === 0
+                    ? "bg-gray-50 hover:bg-gray-100"
+                    : "bg-white hover:bg-teal-100"
+                }
+              >
+                <td className="px-6 py-3 text-center border border-gray-300">
+                  {c.memberName}
+                </td>
+                <td className="px-6 py-3 text-center border border-gray-300">
+                  {c.memberType}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 }

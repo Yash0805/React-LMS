@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
-interface CategoryList {
+
+interface Category {
   categoryId: number;
   categoryName: string;
 }
+
 export default function CategoryList() {
-  const [CategoryList, setCategoryList] = useState<CategoryList[]>([]);
+  const [categoryList, setCategoryList] = useState<Category[]>([]);
+
   useEffect(() => {
     fetch("http://localhost:5018/api/Category", {
       method: "GET",
@@ -16,43 +19,44 @@ export default function CategoryList() {
       .then((response) => response.json())
       .then((data) => setCategoryList(data));
   }, []);
-  if (CategoryList.length === 0) {
-    return <div>Loading...</div>;
-  }
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 px-4">
-  <div className="flex justify-center items-center mb-6">
-    <h1 className="text-3xl font-bold">Category List</h1>
-  </div>
+    <div className="md:table-fixed max-w-7xl mx-auto mt-10 px-6 py-10 rounded-xl bg-white shadow-lg">
+      <div className="flex items-center justify-center gap-3 mb-6">
+        <div className="text-teal-600" />
+        <h1 className="text-5xl font-bold bg-linear-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent">
+          Category List
+        </h1>
+      </div>
 
-  <div className="overflow-x-auto">
-    <table className="min-w-full border border-gray-300 rounded-lg">
-      <thead className="bg-gray-100">
-        <tr>
-          <th className="border border-gray-300 px-4 py-2 text-center">
-            Category ID
-          </th>
-          <th className="border border-gray-300 px-4 py-2 text-center">
-            Category Name
-          </th>
-        </tr>
-      </thead>
+      <div className="overflow-x-auto">
+        <table className="w-full table-fixed border border-gray-300 rounded-lg">
+          <thead className="sticky top-0 bg-teal-700 text-white z-10">
+            <tr>
+              <th className="border border-gray-300 px-4 py-2 text-center">
+                Category Name
+              </th>
+            </tr>
+          </thead>
 
-      <tbody>
-        {CategoryList.map((c) => (
-          <tr key={c.categoryId} className="hover:bg-gray-50">
-            <td className="border border-gray-300 px-4 py-2 text-center">
-              {c.categoryId}
-            </td>
-            <td className="border border-gray-300 px-4 py-2 text-center">
-              {c.categoryName}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-</div>
+          <tbody>
+            {categoryList.map((c, index) => (
+              <tr
+                key={c.categoryId}
+                className={
+                  index % 2 === 0
+                    ? "bg-gray-50 hover:bg-gray-100"
+                    : "bg-white hover:bg-teal-100"
+                }
+              >
+                <td className="border border-gray-300 px-4 py-2 text-center">
+                  {c.categoryName}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }
