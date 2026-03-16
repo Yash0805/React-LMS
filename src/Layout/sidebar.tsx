@@ -1,63 +1,40 @@
 import React from "react";
-import {
-  CSidebar,
-  CSidebarHeader,
-  CSidebarBrand,
-  CSidebarNav,
-  CNavItem,
-  CNavTitle
-} from "@coreui/react";
 
-import CIcon from "@coreui/icons-react";
-import {
-  cilSpeedometer,
-  cilBook,
-  cilPeople,
-  cilTags,
-  cilClipboard
-} from "@coreui/icons";
-
-export const Sidebar: React.FC = () => {
+const Sidebar: React.FC = () =>  {
   return (
-    <CSidebar className="border-end" colorScheme="dark">
+    <div className="w-64 h-screen bg-slate-800 text-white">
 
-      <CSidebarHeader className="border-bottom">
-        <CSidebarBrand>Library System</CSidebarBrand>
-      </CSidebarHeader>
+      <div className="p-4 text-xl text-white font-bold ">
+        Library  Management 
+      </div>
 
-      <CSidebarNav>
+      <nav className="p-4">
 
-        <CNavTitle>Dashboard</CNavTitle>
 
-        <CNavItem href="/">
-          <CIcon className="nav-icon w-5 h-5" icon={cilSpeedometer} />
+        <a href="/" className="block px-4 py-2 text-white font-bold hover:bg-slate-600 hover:text-white rounded transition duration-200">
           Dashboard
-        </CNavItem>
+        </a>
 
-        <CNavTitle>Management</CNavTitle>
+        <a href="/CategoryList" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
+          Category
+        </a>
 
-        <CNavItem href="/categories">
-          <CIcon customClassName="nav-icon" icon={cilTags} />
-          Categories
-        </CNavItem>
-
-        <CNavItem href="/books">
-          <CIcon customClassName="nav-icon" icon={cilBook} />
+        <a href="/books" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
           Books
-        </CNavItem>
+        </a>
 
-        <CNavItem href="/members">
-          <CIcon customClassName="nav-icon" icon={cilPeople} />
+        <a href="/MemberList" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
           Members
-        </CNavItem>
+        </a>
 
-        <CNavItem href="/bookissue">
-          <CIcon customClassName="nav-icon" icon={cilClipboard} />
+        <a href="/bookissue" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
           Book Issue
-        </CNavItem>
+        </a>
 
-      </CSidebarNav>
+      </nav>
 
-    </CSidebar>
+    </div>
   );
 };
+
+export default Sidebar;

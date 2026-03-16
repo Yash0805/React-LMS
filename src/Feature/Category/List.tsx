@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { ApiService } from "Service";
 
 interface Category {
   categoryId: number;
@@ -10,40 +11,27 @@ export default function CategoryList() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5018/api/Category", {
-      method: "GET",
-      headers: {
-        Origin: window.location.host,
-        "Content-Type": "application/json; charset=utf-8",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setCategoryList(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching categories:", error);
-        setLoading(false);
-      });
-  }, []);
+      ApiService.get<Category[]>("Category")
+      .then(setCategoryList)
+      .finally(() => setLoading(false));
+      },[]);
 
   return (
     <div className="max-w-7xl mx-auto mt-10 px-6 py-10 rounded-xl bg-white shadow-lg">
-      
-      {/* Heading */}
-      <div className="flex items-center justify-center gap-3 mb-8">
-        <h1 className="text-5xl font-bold leading-relaxed pb-2 bg-linear-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent">
+
+      <div className="flex justify-center mb-8">
+        <h1 className="text-5xl font-bold text-slate-800 ">
           Category List
         </h1>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full table-fixed border border-gray-300 rounded-lg">
-          <thead className="sticky top-0 bg-teal-700 text-white">
+
+      <div className="overflow-x-auto rounded-lg">
+        <table className="w-full border border-gray-300">
+
+          <thead className="bg-slate-800 text-white">
             <tr>
-              <th className="px-6 py-3 text-center font-semibold border border-gray-300 tracking-wide">
+              <th className="px-6 py-3 text-center font-semibold border border-gray-300">
                 Category Name
               </th>
             </tr>
@@ -54,23 +42,29 @@ export default function CategoryList() {
               <tr>
                 <td className="text-center py-5">Loading...</td>
               </tr>
-            ) : (
+            ) : categoryList.length ===0 ?(
+               <tr>
+                <td colSpan={2} className="text-center py-5 text-gray-500">
+                  No Category Found
+                </td>
+              </tr>
+            ) :
+            (
               categoryList.map((c, index) => (
                 <tr
                   key={c.categoryId}
-                  className={
-                    index % 2 === 0
-                      ? "bg-gray-50 hover:bg-gray-100"
-                      : "bg-white hover:bg-teal-100"
-                  }
+                  className={`${
+                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  } hover:bg-gray-100 transition duration-200`}
                 >
-                  <td className="px-6 py-3 text-center border border-gray-300">
+                  <td className="px-6 py-3 text-center border border-gray-300 ">
                     {c.categoryName}
                   </td>
                 </tr>
               ))
             )}
           </tbody>
+
         </table>
       </div>
 
