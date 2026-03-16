@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Sidebar: React.FC = () =>  {
   return (
@@ -11,25 +12,25 @@ const Sidebar: React.FC = () =>  {
       <nav className="p-4">
 
 
-        <a href="/" className="block px-4 py-2 text-white font-bold hover:bg-slate-600 hover:text-white rounded transition duration-200">
+        <Link to="/" className="block px-4 py-2 text-white font-bold hover:bg-slate-600 hover:text-white rounded transition duration-200">
           Dashboard
-        </a>
+        </Link>
 
-        <a href="/CategoryList" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
+        <Link to="/CategoryList" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
           Category
-        </a>
+        </Link>
 
-        <a href="/BookList" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
+        <Link to="/BookList" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
           Books
-        </a>
+        </Link>
 
-        <a href="/MemberList" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
+        <Link to="/MemberList" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
           Members
-        </a>
+        </Link>
 
-        <a href="/BookIssueList" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
+        <Link to="/BookIssueList" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
           Book Issue
-        </a>
+        </Link>
 
       </nav>
 
