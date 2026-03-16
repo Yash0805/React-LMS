@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
+
 interface MemberList {
   memberId: number;
   memberName: string;
   memberType: string;
 }
+
 export default function MemberList() {
-  const [MemberList, setMemberList] = useState<MemberList[]>([]);
+  const [memberList, setMemberList] = useState<MemberList[]>([]);
+
   useEffect(() => {
     fetch("http://localhost:5018/api/Members", {
       method: "GET",
@@ -19,14 +22,15 @@ export default function MemberList() {
   }, []);
 
   return (
-    <div className="md:table-fixed max-w-7xl mx-auto mt-10 px-6 py-10 rounded-xl bg-white shadow-lg">
-      <div className="flex items-center justify-center gap-3 mb-6">
-        <div className="text-teal-600" />
-        <h1 className="text-5xl font-bold bg-linear-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent">
+    <div className="max-w-7xl mx-auto mt-10 px-6 py-10 rounded-xl bg-white shadow-lg">
+      {/* Heading */}
+      <div className="flex items-center justify-center gap-3 mb-8">
+        <h1 className="text-5xl font-bold leading-relaxed pb-2 bg-linear-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent">
           Member List
         </h1>
       </div>
 
+      {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full table-fixed border border-gray-300 rounded-lg">
           <thead className="sticky top-0 bg-teal-700 text-white z-10">
@@ -41,7 +45,7 @@ export default function MemberList() {
           </thead>
 
           <tbody>
-            {MemberList.map((c, index) => (
+            {memberList.map((c, index) => (
               <tr
                 key={c.memberId}
                 className={
