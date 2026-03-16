@@ -9,12 +9,12 @@ interface MemberList {
 
 export default function MemberList() {
   const [memberList, setMemberList] = useState<MemberList[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setloading] = useState(true);
 
   useEffect(() => {
     ApiService.get<MemberList[]>("Members")
       .then(setMemberList)
-      .finally(() => setLoading(false));
+      .finally(() => setloading(false));
   }, []);
 
   return (

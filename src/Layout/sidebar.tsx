@@ -19,7 +19,7 @@ const Sidebar: React.FC = () =>  {
           Category
         </a>
 
-        <a href="/books" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
+        <a href="/BookList" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
           Books
         </a>
 
@@ -27,7 +27,7 @@ const Sidebar: React.FC = () =>  {
           Members
         </a>
 
-        <a href="/bookissue" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
+        <a href="/BookIssueList" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
           Book Issue
         </a>
 
