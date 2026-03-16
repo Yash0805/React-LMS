@@ -22,7 +22,7 @@ export default function CategoryList() {
 
   return (
     <div className="md:table-fixed max-w-7xl mx-auto mt-10 px-6 py-10 rounded-xl bg-white shadow-lg">
-      <div className="flex items-center justify-center gap-3 mb-6">
+      <div className="flex items-center justify-center gap-3 mb-6 ">
         <div className="text-teal-600" />
         <h1 className="text-5xl font-bold bg-linear-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent">
           Category List
@@ -33,7 +33,7 @@ export default function CategoryList() {
         <table className="w-full table-fixed border border-gray-300 rounded-lg">
           <thead className="sticky top-0 bg-teal-700 text-white z-10">
             <tr>
-              <th className="border border-gray-300 px-4 py-2 text-center">
+              <th className="px-6 py-3 text-center font-semibold border border-gray-300">
                 Category Name
               </th>
             </tr>
@@ -49,7 +49,7 @@ export default function CategoryList() {
                     : "bg-white hover:bg-teal-100"
                 }
               >
-                <td className="border border-gray-300 px-4 py-2 text-center">
+                <td className="px-6 py-3 text-center border border-gray-300">
                   {c.categoryName}
                 </td>
               </tr>
