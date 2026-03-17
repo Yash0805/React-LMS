@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ApiService } from "Service";
+import { Loader } from "Shared/Component/Loader/Loader";
 
 interface Category {
   categoryId: number;
@@ -40,7 +41,11 @@ export default function CategoryList() {
           <tbody>
             {loading ? (
               <tr>
-                <td className="text-center py-5">Loading...</td>
+                <td colSpan={5} className="py-10">
+                  <div className="flex justify-center items-center">
+                    <Loader />
+                  </div>
+                </td>
               </tr>
             ) : categoryList.length ===0 ?(
                <tr>

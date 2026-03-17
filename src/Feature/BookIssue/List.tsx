@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ApiService } from "Service";
-
+import { Loader } from "Shared/Component/Loader/Loader";
 
 interface BookissueList{
     issueId : number;
@@ -31,7 +31,7 @@ export default function BookissueList(){
       
       <div className="flex justify-center mb-8">
         <h1 className="text-5xl font-bold text-slate-800 ">
-          Book List
+          Book Issue List
         </h1>
       </div>
 
@@ -54,8 +54,10 @@ export default function BookissueList(){
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={2} className="text-center py-5">
-                  Loading...
+                <td colSpan={8} className="py-10">
+                  <div className="flex justify-center items-center">
+                    <Loader />
+                  </div>
                 </td>
               </tr>
             ) : BookissueList.length === 0 ? (

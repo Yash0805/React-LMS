@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { ApiService } from "Service";
+import { Loader } from "Shared/Component/Loader/Loader";
 
 interface MemberList {
   memberId: number;
@@ -19,7 +20,7 @@ export default function MemberList() {
 
   return (
     <div className="max-w-7xl mx-auto mt-10 px-6 py-10 rounded-xl bg-white shadow-lg">
-      
+
       <div className="flex justify-center mb-8">
         <h1 className="text-5xl font-bold text-slate-800 ">
           Member List
@@ -28,7 +29,7 @@ export default function MemberList() {
 
       <div className="overflow-x-auto rounded-lg">
         <table className="w-full border border-gray-300">
-          
+
           <thead className="bg-slate-800 text-white">
             <tr>
               <th className="px-6 py-3 text-center border">Member Name</th>
@@ -39,8 +40,10 @@ export default function MemberList() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={2} className="text-center py-5">
-                  Loading...
+                <td colSpan={5} className="py-10">
+                  <div className="flex justify-center items-center">
+                    <Loader />
+                  </div>
                 </td>
               </tr>
             ) : memberList.length === 0 ? (
@@ -53,9 +56,8 @@ export default function MemberList() {
               memberList.map((c, index) => (
                 <tr
                   key={c.memberId}
-                  className={`${
-                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                  } hover:bg-gray-100`}
+                  className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                    } hover:bg-gray-100`}
                 >
                   <td className="px-6 py-3 text-center border">
                     {c.memberName}
