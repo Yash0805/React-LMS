@@ -5,8 +5,11 @@ const Sidebar: React.FC = () =>  {
   return (
     <div className="w-64 h-screen bg-slate-800 text-white">
 
-      <div className="p-4 text-xl text-white font-bold ">
-        Library  Management 
+      <div className="p-4 text-xl 
+      
+      
+      text-center text-white font-bold ">
+        LMS 
       </div>
 
       <nav className="p-4">

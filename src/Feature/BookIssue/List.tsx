@@ -53,7 +53,7 @@ export default function BookissueList(){
 
           <tbody>
             {loading ? (
-              <tr>
+              <tr>  
                 <td colSpan={8} className="py-10">
                   <div className="flex justify-center items-center">
                     <Loader />
