@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ApiService } from "Service";
 import { Loader } from "Shared/Component/Loader/Loader";
+import { Grid } from "Shared/Component/Grid";
 
 interface BookissueList {
   issueId: number;
@@ -18,12 +19,12 @@ interface BookissueList {
 
 export default function BookissueList() {
   const [bookIssueList, setBookissueList] = useState<BookissueList[]>([]);
-  const [loading, setloading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     ApiService.get<BookissueList[]>("BookIssue")
-      .then(setBookissueList)
-      .finally(() => setloading(false));
+      .then((data) => setBookissueList(data ?? []))
+      .finally(() => setLoading(false));
   }, []);
 
   const formatDate = (date: number) => {
@@ -44,104 +45,80 @@ export default function BookissueList() {
     }
   };
 
-  return (
-    <div className="mt-10 px-6">
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-10">
+        <Loader />
+      </div>
+    );
+  }
 
+  if (bookIssueList.length === 0) {
+    return (
+      <div className="text-center py-10 text-slate-400">
+        No Book Issue Found
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-10 px-6 text-white">
       <div className="flex justify-start mb-10">
         <h1 className="text-4xl font-bold bg-linear-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
           Book Issue List
         </h1>
       </div>
 
-      <div className="bg-slate-800/60 backdrop-blur-md border border-slate-700 rounded-2xl shadow-lg overflow-hidden">
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-
-            <thead className="bg-slate-900/70 backdrop-blur-sm text-slate-300 uppercase text-sm tracking-wider">
-              <tr>
-                <th className="px-6 py-4">Member</th>
-                <th className="px-6 py-4">Type</th>
-                <th className="px-6 py-4">Book</th>
-                <th className="px-6 py-4">Issue Date</th>
-                <th className="px-6 py-4">Return Date</th>
-                <th className="px-6 py-4">Renew</th>
-                <th className="px-6 py-4">Renew Date</th>
-                <th className="px-6 py-4">Status</th>
-              </tr>
-            </thead>
-
-            <tbody className="text-slate-300">
-
-              {loading ? (
-                <tr>
-                  <td colSpan={8} className="py-12">
-                    <div className="flex justify-center items-center">
-                      <Loader />
-                    </div>
-                  </td>
-                </tr>
-              ) : bookIssueList.length === 0 ? (
-                <tr>
-                  <td colSpan={8} className="text-center py-8 text-slate-400">
-                    No Book Issue Found
-                  </td>
-                </tr>
-              ) : (
-                bookIssueList.map((c, index) => (
-                  <tr
-                    key={c.issueId}
-                    className={`
-                      border-b border-slate-700/50
-                      ${index % 2 === 0 ? "bg-slate-800/30" : "bg-slate-800/10"}
-                      hover:bg-slate-700/40
-                      hover:scale-[1.01]
-                      hover:shadow-md hover:shadow-purple-500/5
-                      transition duration-200
-                    `}
-                  >
-                    <td className="px-6 py-4 font-medium text-white">
-                      {c.memberName}
-                    </td>
-
-                    <td className="px-6 py-4 text-slate-400">
-                      {c.memberType}
-                    </td>
-
-                    <td className="px-6 py-4 text-slate-300">
-                      {c.bookName}
-                    </td>
-
-                    <td className="px-6 py-4 text-slate-400">
-                      {formatDate(c.issueDate)}
-                    </td>
-
-                    <td className="px-6 py-4 text-slate-400">
-                      {formatDate(c.returnDate)}
-                    </td>
-
-                    <td className="px-6 py-4 text-indigo-400 font-semibold">
-                      {c.renewCount}
-                    </td>
-
-                    <td className="px-6 py-4 text-slate-400">
-                      {formatDate(c.renewDate)}
-                    </td>
-
-                    <td className="px-6 py-4">
-                      <span className={`px-3 py-1 rounded-full text-xs ${getStatusStyle(c.status)}`}>
-                        {c.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))
-              )}
-
-            </tbody>
-
-          </table>
-        </div>
-      </div>
+      <Grid<BookissueList>
+        data={bookIssueList}
+        rowKey={(m) => m.issueId}
+        columns={[
+          {
+            field: "memberName",
+            header: "Member Name",
+          },
+          {
+            field: "memberType",
+            header: "Type",
+          },
+          {
+            field: "bookName",
+            header: "Book Name",
+          },
+          {
+            field: "issueDate",
+            header: "Issue Date",
+            render: (value) => formatDate(value as number),
+          },
+          {
+            field: "returnDate",
+            header: "Return Date",
+            render: (value) => formatDate(value as number),
+          },
+          {
+            field: "renewCount",
+            header: "Renew Count",
+          },
+          {
+            field: "renewDate",
+            header: "Renew Date",
+            render: (value) => formatDate(value as number),
+          },
+          {
+            field: "status",
+            header: "Status",
+            render: (value) => (
+              <span
+                className={`px-3 py-1 rounded-full text-xs ${getStatusStyle(
+                  value as string,
+                )}`}
+              >
+                {value}
+              </span>
+            ),
+          },
+        ]}
+      />
     </div>
   );
 }

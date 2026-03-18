@@ -14,7 +14,7 @@ const Header: React.FC = () => {
         <span className=" text-lg font-semibold 
         bg-linear-to-r from-indigo-400 via-purple-400 to-pink-400 
         text-transparent bg-clip-text">Admin</span>
-      <div className="w-9 h-9 bg-gray-200 rounded-full flex items-center justify-center">👤</div>
+        <div className="w-9 h-9 bg-gray-200 rounded-full flex items-center justify-center">👤</div>
       </div>
 
     </div>

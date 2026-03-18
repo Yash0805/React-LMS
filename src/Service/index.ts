@@ -1,3 +1,3 @@
-import * as ApiService from './api';
+import * as ApiService from "./api";
 
 export { ApiService };

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Sidebar: React.FC = () =>  {
+const Sidebar: React.FC = () => {
   return (
     <div className="w-64 h-screen bg-linear-to-br from-slate-800 to-slate-900 text-white">
 
@@ -9,7 +9,7 @@ const Sidebar: React.FC = () =>  {
       
       
       text-center text-white font-bold ">
-        LMS 
+        LMS
       </div>
 
       <nav className="p-4">
