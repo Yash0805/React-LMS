@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
+import Dashboard from "Feature/Dashboard/Index";
 import CategoryList from "./Feature/Category/List";
 import MemberList from "./Feature/Member/List";
 import Mainlayout from "./Layout/Mainlayout";
@@ -12,6 +13,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Mainlayout />}>
+          <Route path="/Dashboard" element={<Dashboard />}/>
             <Route path="/CategoryList" element={<CategoryList />} />
             <Route path="/MemberList" element={<MemberList />} />
             <Route path="/BookList" element={<BookList />} />

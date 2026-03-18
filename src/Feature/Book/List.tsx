@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { ApiService } from "Service";
 import { Loader } from "Shared/Component/Loader/Loader";
 
-
 interface BookList {
   bookId: number;
   bookName: string;
@@ -24,70 +23,87 @@ export default function BookList() {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto mt-10 px-6 py-10 rounded-xl bg-white shadow-lg">
+    <div className="mt-10 px-6">
 
-      <div className="flex justify-center mb-8">
-        <h1 className="text-5xl font-bold text-slate-800">
+      <div className="flex justify-start mb-10">
+        <h1 className="text-4xl font-bold bg-linear-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
           Book List
         </h1>
       </div>
 
-      <div className="overflow-x-auto rounded-lg">
-        <table className="w-full border border-gray-300">
+      <div className="bg-slate-800/60 backdrop-blur-md border border-slate-700 rounded-2xl shadow-lg overflow-hidden">
 
-          <thead className="bg-slate-800 text-white">
-            <tr>
-              <th className="px-6 py-3 text-center border">Book Name</th>
-              <th className="px-6 py-3 text-center border">Publisher</th>
-              <th className="px-6 py-3 text-center border">Author</th>
-              <th className="px-6 py-3 text-center border">Price</th>
-              <th className="px-6 py-3 text-center border">Category</th>
-            </tr>
-          </thead>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left">
 
-          <tbody>
-            {loading ? (
+            <thead className="bg-slate-900/70 backdrop-blur-sm text-slate-300 uppercase text-sm tracking-wider">
               <tr>
-                <td colSpan={5} className="py-10">
-                  <div className="flex justify-center items-center">
-                    <Loader />
-                  </div>
-                </td>
+                <th className="px-6 py-4">Book Name</th>
+                <th className="px-6 py-4">Publisher</th>
+                <th className="px-6 py-4">Author</th>
+                <th className="px-6 py-4">Price</th>
+                <th className="px-6 py-4">Category</th>
               </tr>
-            ) : bookList.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="text-center py-5 text-gray-500">
-                  No Book Found
-                </td>
-              </tr>
-            ) : (
-              bookList.map((c, index) => (
-                <tr
-                  key={c.bookId}
-                  className={`${index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                    } hover:bg-gray-100`}
-                >
-                  <td className="px-6 py-3 text-center border">
-                    {c.bookName}
-                  </td>
-                  <td className="px-6 py-3 text-center border">
-                    {c.publisher}
-                  </td>
-                  <td className="px-6 py-3 text-center border">
-                    {c.author}
-                  </td>
-                  <td className="px-6 py-3 text-center border">
-                    ₹{c.price}
-                  </td>
-                  <td className="px-6 py-3 text-center border">
-                    {c.categoryName}
+            </thead>
+
+            <tbody className="text-slate-300">
+
+              {loading ? (
+                <tr>
+                  <td colSpan={5} className="py-12">
+                    <div className="flex justify-center items-center">
+                      <Loader />
+                    </div>
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
+              ) : bookList.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="text-center py-8 text-slate-400">
+                    No Book Found
+                  </td>
+                </tr>
+              ) : (
+                bookList.map((c, index) => (
+                  <tr
+                    key={c.bookId}
+                    className={`
+                      border-b border-slate-700/50
+                      ${index % 2 === 0 ? "bg-slate-800/30" : "bg-slate-800/10"}
+                      hover:bg-slate-700/40
+                      hover:scale-[1.01]
+                      hover:shadow-md hover:shadow-purple-500/5
+                      transition duration-200
+                    `}
+                  >
+                    <td className="px-6 py-4 font-medium text-white">
+                      {c.bookName}
+                    </td>
 
-        </table>
+                    <td className="px-6 py-4 text-slate-400">
+                      {c.publisher}
+                    </td>
+
+                    <td className="px-6 py-4 text-slate-400">
+                      {c.author}
+                    </td>
+
+                    <td className="px-6 py-4 text-emerald-400 font-semibold">
+                      ₹{c.price}
+                    </td>
+
+                    <td className="px-6 py-4">
+                      <span className="bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 px-3 py-1 rounded-full text-xs">
+                        {c.categoryName}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
+
+            </tbody>
+
+          </table>
+        </div>
       </div>
     </div>
   );
