@@ -29,7 +29,7 @@ export default function BookissueList() {
 
   const formatDate = (date: number) => {
     if (!date) return "-";
-    return new Date(date).toLocaleDateString();
+    return new Date(date).toLocaleDateString("en-GB");
   };
 
   const getStatusStyle = (status: string) => {
