@@ -27,7 +27,7 @@ const Sidebar: React.FC = () => {
           Books
         </Link>
 
-        <Link to="/MemberList" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
+        <Link to="/Member" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
           Members
         </Link>
 
