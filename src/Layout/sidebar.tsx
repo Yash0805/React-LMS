@@ -19,7 +19,7 @@ const Sidebar: React.FC = () => {
           Dashboard
         </Link>
 
-        <Link to="/CategoryList" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
+        <Link to="/Category" className="block px-4 py-2 text-white font-bold hover:bg-slate-700 hover:text-white rounded transition duration-200">
           Category
         </Link>
 

@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Dashboard from "Feature/Dashboard/Index";
-import CategoryList from "./Feature/Category/List";
+import Category from "./Feature/Category/";
 import MemberList from "./Feature/Member/List";
 import Mainlayout from "./Layout/Mainlayout";
 import BookList from "Feature/Book/List";
@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Mainlayout />}>
             <Route path="/Dashboard" element={<Dashboard />} />
-            <Route path="/CategoryList" element={<CategoryList />} />
+            <Route path="/Category/*" element={<Category />} />
             <Route path="/MemberList" element={<MemberList />} />
             <Route path="/BookList" element={<BookList />} />
             <Route path="/BookIssueList" element={<BookissueList />} />
