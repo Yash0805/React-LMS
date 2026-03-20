@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import { ApiService } from "Service";
 import Button from "Shared/Component/Button/Button";
 
-
 export default function Create() {
   const [categoryName, setCategoryName] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -32,11 +31,6 @@ export default function Create() {
           onSubmit={async (e) => {
             e.preventDefault();
 
-            if (!categoryName.trim()) {
-              alert("Category Name is required");
-              return;
-            }
-
             try {
               setSubmitting(true);
               await ApiService.post("Category", { categoryName });
@@ -60,8 +54,7 @@ export default function Create() {
               onChange={(e) => setCategoryName(e.target.value)}
               disabled={submitting}
               placeholder="Enter category name"
-              className="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-600 text-white 
-              focus:outline-none focus:ring-2 focus:ring-indigo-400 disabled:opacity-50"
+              className="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-600 text-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
           </div>
 

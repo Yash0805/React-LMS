@@ -2,32 +2,19 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { ApiService } from "Service";
 import Button from "Shared/Component/Button/Button";
+import TextBox from "Shared/Component/Forms/TextBox";
 
 export default function Create() {
     const [memberName, setMemberName] = useState("");
     const [memberType, setMemberType] = useState("");
-    const [errors, setErrors] = useState<{
-        memberName?: string;
-        memberType?: string;
-        general?: string;
-    }>({});
     const [submitting, setSubmitting] = useState(false);
 
     const navigate = useNavigate();
 
     const validate = () => {
-        const newErrors: typeof errors = {};
-
-        if (!memberName.trim()) {
-            newErrors.memberName = "Member Name is required";
-        }
-
-        if (!memberType) {
-            newErrors.memberType = "Member Type is required";
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        if (!memberName.trim()) return false;
+        if (!memberType) return false;
+        return true;
     };
 
     return (
@@ -46,14 +33,11 @@ export default function Create() {
                 </button>
             </div>
 
-
             <div className="flex justify-center">
                 <form
                     className="w-full max-w-lg bg-slate-900 p-8 rounded-2xl shadow-md hover:shadow-xl transition"
                     onSubmit={async (e) => {
                         e.preventDefault();
-
-                        setErrors({});
 
                         if (!validate()) return;
 
@@ -66,38 +50,24 @@ export default function Create() {
                             });
 
                             navigate("/member/list");
-                        } catch {
-                            setErrors({ general: "Something went wrong" });
+                        } catch (ex) {
+                            alert(ex);
                         } finally {
                             setSubmitting(false);
                         }
                     }}
                 >
-                    <div className="mb-4">
-                        <label className="block text-slate-300 text-sm font-medium mb-1">
-                            Member Name
-                        </label>
+                    <TextBox
+                        label="Member Name"
+                        name="memberName"
+                        placeholder="Enter member name"
+                        value={memberName}
+                        onChange={setMemberName}
+                        disabled={submitting}
+                    />
 
-                        <input
-                            type="text"
-                            value={memberName}
-                            onChange={(e) => {
-                                setMemberName(e.target.value);
-                                setErrors((prev) => ({ ...prev, memberName: undefined }));
-                            }}
-                            disabled={submitting}
-                            placeholder="Enter member name"
-                            className={`w-full px-3 py-2 rounded-lg bg-slate-800 border 
-              ${errors.memberName ? "border-red-500" : "border-slate-600"}
-              text-white focus:outline-none focus:ring-2 focus:ring-indigo-400`}
-                        />
 
-                        {errors.memberName && (
-                            <p className="text-red-400 text-sm mt-1">
-                                {errors.memberName}
-                            </p>
-                        )}
-                    </div>
+
 
                     <div className="mb-4">
                         <label className="block text-slate-300 text-sm font-medium mb-1">
@@ -106,35 +76,22 @@ export default function Create() {
 
                         <select
                             value={memberType}
-                            onChange={(e) => {
-                                setMemberType(e.target.value);
-                                setErrors((prev) => ({ ...prev, memberType: undefined }));
-                            }}
+                            onChange={(e) => setMemberType(e.target.value)}
                             disabled={submitting}
-                            className={`w-full px-3 py-2 rounded-lg bg-slate-800 border 
-              ${errors.memberType ? "border-red-500" : "border-slate-600"}
-              text-white focus:outline-none focus:ring-2 focus:ring-indigo-400`}
+                            className="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-600 text-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
                         >
                             <option value="">Select Member Type</option>
                             <option value="Premium">Premium</option>
                             <option value="Regular">Regular</option>
                         </select>
-
-                        {errors.memberType && (
-                            <p className="text-red-400 text-sm mt-1">
-                                {errors.memberType}
-                            </p>
-                        )}
                     </div>
 
-                    {errors.general && (
-                        <p className="text-red-400 text-sm mb-4">
-                            {errors.general}
-                        </p>
-                    )}
-
                     <div className="mt-6 flex justify-end">
-                        <Button caption="Create" disabled={submitting} />
+                        <Button
+                            caption={submitting ? "Creating..." : "Create"}
+                            disabled={submitting}
+                            type="submit"
+                        />
                     </div>
                 </form>
             </div>
