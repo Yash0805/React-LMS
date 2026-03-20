@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ApiService } from "Service";
+import { Grid } from "Shared/Component/Grid/Index";
 import { Loader } from "Shared/Component/Loader/Loader";
-import { Grid } from "Shared/Component/Grid";
+import Button from "Shared/Component/Button/Button";
 
 interface BookissueList {
   issueId: number;
@@ -20,6 +22,8 @@ interface BookissueList {
 export default function BookissueList() {
   const [bookIssueList, setBookissueList] = useState<BookissueList[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     ApiService.get<BookissueList[]>("BookIssue")
@@ -62,13 +66,22 @@ export default function BookissueList() {
   }
 
   return (
-    <div className="mt-10 px-6 text-white">
-      <div className="flex justify-start mb-10">
+    <div className="px-6 text-white">
+      
+      {/* Header */}
+      <div className="flex justify-between items-center mb-10">
         <h1 className="text-4xl font-bold bg-linear-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
           Book Issue List
         </h1>
+
+        <Button
+          caption="+ Issue Book"
+          type="button"
+          onClick={() => navigate("/BookIssue/create")}
+        />
       </div>
 
+      {/* Grid */}
       <Grid<BookissueList>
         data={bookIssueList}
         rowKey={(m) => m.issueId}
@@ -110,7 +123,7 @@ export default function BookissueList() {
             render: (value) => (
               <span
                 className={`px-3 py-1 rounded-full text-xs ${getStatusStyle(
-                  value as string,
+                  value as string
                 )}`}
               >
                 {value}

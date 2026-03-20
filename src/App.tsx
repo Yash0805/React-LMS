@@ -5,7 +5,7 @@ import Category from "./Feature/Category/";
 import Member from "./Feature/Member/";
 import Mainlayout from "./Layout/Mainlayout";
 import Book from "Feature/Book/";
-import BookissueList from "Feature/BookIssue/List";
+import Bookissue from "Feature/BookIssue";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
             <Route path="/Category/*" element={<Category />} />
             <Route path="/Member/*" element={<Member />} />
             <Route path="/Book/*" element={<Book />} />
-            <Route path="/BookIssueList" element={<BookissueList />} />
+            <Route path="/BookIssue/*" element={<Bookissue />} />
           </Route>
         </Routes>
       </BrowserRouter>
