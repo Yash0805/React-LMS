@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ApiService } from "Service";
+import Button from "Shared/Component/Button/Button";
 import { Grid } from "Shared/Component/Grid/Index";
 import { Loader } from "Shared/Component/Loader/Loader";
-import Button from "Shared/Component/Button/Button";
+
 
 interface BookissueList {
   issueId: number;
@@ -67,8 +68,7 @@ export default function BookissueList() {
 
   return (
     <div className="px-6 text-white">
-      
-      {/* Header */}
+
       <div className="flex justify-between items-center mb-10">
         <h1 className="text-4xl font-bold bg-linear-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
           Book Issue List
@@ -81,7 +81,6 @@ export default function BookissueList() {
         />
       </div>
 
-      {/* Grid */}
       <Grid<BookissueList>
         data={bookIssueList}
         rowKey={(m) => m.issueId}

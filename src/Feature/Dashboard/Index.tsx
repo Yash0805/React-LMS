@@ -50,9 +50,7 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
 
-          <div className="bg-linear-to-br from-slate-900 via-[#0f172a] to-[#020617] p-5 rounded-xl flex items-center justify-center">
-            <h2 className="text-gray-400">Pie Chart (Categories)</h2>
-          </div>
+
 
         </div>
 
