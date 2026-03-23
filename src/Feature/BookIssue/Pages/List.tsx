@@ -5,7 +5,6 @@ import Button from "Shared/Component/Button/Button";
 import { Grid } from "Shared/Component/Grid/Index";
 import { Loader } from "Shared/Component/Loader/Loader";
 
-
 interface BookissueList {
   issueId: number;
   memberId: number;
@@ -58,17 +57,8 @@ export default function BookissueList() {
     );
   }
 
-  if (bookIssueList.length === 0) {
-    return (
-      <div className="text-center py-10 text-slate-400">
-        No Book Issue Found
-      </div>
-    );
-  }
-
   return (
     <div className="px-6 text-white">
-
       <div className="flex justify-between items-center mb-10">
         <h1 className="text-4xl font-bold bg-linear-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
           Book Issue List
@@ -81,56 +71,62 @@ export default function BookissueList() {
         />
       </div>
 
-      <Grid<BookissueList>
-        data={bookIssueList}
-        rowKey={(m) => m.issueId}
-        columns={[
-          {
-            field: "memberName",
-            header: "Member Name",
-          },
-          {
-            field: "memberType",
-            header: "Type",
-          },
-          {
-            field: "bookName",
-            header: "Book Name",
-          },
-          {
-            field: "issueDate",
-            header: "Issue Date",
-            render: (value) => formatDate(value as number),
-          },
-          {
-            field: "returnDate",
-            header: "Return Date",
-            render: (value) => formatDate(value as number),
-          },
-          {
-            field: "renewCount",
-            header: "Renew Count",
-          },
-          {
-            field: "renewDate",
-            header: "Renew Date",
-            render: (value) => formatDate(value as number),
-          },
-          {
-            field: "status",
-            header: "Status",
-            render: (value) => (
-              <span
-                className={`px-3 py-1 rounded-full text-xs ${getStatusStyle(
-                  value as string
-                )}`}
-              >
-                {value}
-              </span>
-            ),
-          },
-        ]}
-      />
+      {bookIssueList.length === 0 ? (
+        <div className="text-center py-10 text-slate-400">
+          No Book Issue Found
+        </div>
+      ) : (
+        <Grid<BookissueList>
+          data={bookIssueList}
+          rowKey={(m) => m.issueId}
+          columns={[
+            {
+              field: "memberName",
+              header: "Member Name",
+            },
+            {
+              field: "memberType",
+              header: "Type",
+            },
+            {
+              field: "bookName",
+              header: "Book Name",
+            },
+            {
+              field: "issueDate",
+              header: "Issue Date",
+              render: (value) => formatDate(value as number),
+            },
+            {
+              field: "returnDate",
+              header: "Return Date",
+              render: (value) => formatDate(value as number),
+            },
+            {
+              field: "renewCount",
+              header: "Renew Count",
+            },
+            {
+              field: "renewDate",
+              header: "Renew Date",
+              render: (value) => formatDate(value as number),
+            },
+            {
+              field: "status",
+              header: "Status",
+              render: (value) => (
+                <span
+                  className={`px-3 py-1 rounded-full text-xs ${getStatusStyle(
+                    value as string
+                  )}`}
+                >
+                  {value}
+                </span>
+              ),
+            },
+          ]}
+        />
+      )}
     </div>
   );
 }

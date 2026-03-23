@@ -30,17 +30,9 @@ export default function CategoryList() {
     );
   }
 
-  if (categoryList.length === 0) {
-    return (
-      <div className="text-center py-10 text-slate-400">
-        No Category Found
-      </div>
-    );
-  }
 
   return (
     <div className="mt-10 px-6 text-white">
-
       <div className="flex justify-between items-center mb-10">
         <h1 className="text-4xl font-bold bg-linear-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
           Category List
@@ -53,17 +45,22 @@ export default function CategoryList() {
         />
       </div>
 
-      <Grid<Category>
-        data={categoryList}
-        rowKey={(c) => c.categoryId}
-        columns={[
-          {
-            field: "categoryName",
-            header: "Category Name",
-          },
-        ]}
-      />
-
+      {categoryList.length === 0 ? (
+        <div className="text-center py-10 text-slate-400">
+          No Category Found
+        </div>
+      ) : (
+        <Grid<Category>
+          data={categoryList}
+          rowKey={(c) => c.categoryId}
+          columns={[
+            {
+              field: "categoryName",
+              header: "Category Name",
+            },
+          ]}
+        />
+      )}
     </div>
   );
 }
