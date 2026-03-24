@@ -1,13 +1,20 @@
 import { useState, useMemo } from "react";
 
+interface Action<T> {
+  icon: string;
+  onClick: (row: T) => void;
+  className?: string;
+}
 interface Column<T, K extends keyof T = keyof T> {
   field?: K;
   header: string;
   render?: (value: T[K], row: T) => React.ReactNode;
   onClick?: (row: T) => void;
   buttonCaption?: string;
+  buttonClassName?: string;
   filter?: boolean;
   filterPlaceholder?: string;
+  actions?: Action<T>[];
 }
 
 interface GridProps<T> {
@@ -82,6 +89,7 @@ export function Grid<T extends object>({
 
   return (
     <div className="relative">
+
       <div className="mb-4 flex justify-between items-center">
         <input
           type="text"
@@ -147,11 +155,8 @@ export function Grid<T extends object>({
             paginatedData.map((item, index) => (
               <tr
                 key={rowKey ? rowKey(item) : index}
-                className={`
-                  border-b border-slate-700/50
-                  ${index % 2 === 0 ? "bg-slate-800/30" : "bg-slate-800/10"}
-                  hover:bg-slate-700/40
-                `}
+                className={`border-b border-slate-700/50 ${index % 2 === 0 ? "bg-slate-800/30" : "bg-slate-800/10"
+                  } hover:bg-slate-700/40`}
               >
                 {columns.map((c, i) => {
                   if (c.render && c.field) {
@@ -170,20 +175,27 @@ export function Grid<T extends object>({
                     );
                   }
 
-                  if (c.onClick) {
+                  if (c.actions) {
                     return (
-                      <td key={i} className="px-6 py-4">
-                        <button
-                          onClick={() => c.onClick?.(item)}
-                          className="px-3 py-1 border border-slate-500 rounded hover:bg-slate-700"
-                        >
-                          {c.buttonCaption}
-                        </button>
+                      <td key={i} className="px-6 py-4 flex gap-2">
+                        {c.actions.map((action, idx) => (
+                          <button
+                            key={idx}
+                            title={action.icon}
+                            onClick={() => action.onClick(item)}
+                            className={
+                              action.className ??
+                              "px-2 py-1 border border-slate-500 rounded hover:bg-slate-700"
+                            }
+                          >
+                            <i className={action.icon}></i>
+                          </button>
+                        ))}
                       </td>
                     );
                   }
 
-                  return null;
+                  return <td key={i}></td>;
                 })}
               </tr>
             ))
@@ -198,7 +210,6 @@ export function Grid<T extends object>({
       )}
 
       <div className="flex justify-between items-center mt-4 flex-wrap gap-2">
-
         <div className="flex items-center gap-2 text-slate-400">
           <span>Rows:</span>
           <select

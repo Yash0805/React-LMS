@@ -2,14 +2,15 @@ import { useNavigate } from "react-router-dom";
 import { Loader } from "Shared/Component/Loader/Loader";
 import { Grid } from "Shared/Component/Grid/Index";
 import Button from "Shared/Component/Button/Button";
-import { useStatesQuery } from "../queries";
+import { useRemoveCategoryMutation, useCategoryQuery } from "../queries";
 
 export default function CategoryList() {
   const navigate = useNavigate();
 
-  const { data, isLoading } = useStatesQuery();
+  const { data, isLoading } = useCategoryQuery();
+  const { isPending, mutateAsync } = useRemoveCategoryMutation();
 
-  if (isLoading) {
+  if (isLoading || isPending) {
     return (
       <div className="flex justify-center items-center py-10">
         <Loader />
@@ -42,6 +43,20 @@ export default function CategoryList() {
             {
               field: "categoryName",
               header: "Category Name",
+            },
+            {
+              header: "Action",
+              actions: [
+                {
+                  icon: "pi pi-trash",
+                  className:" px-3 py-1 rounded",
+                  onClick: async (category) => {
+                    if (confirm("Are you sure you want to delete?")) {
+                      await mutateAsync(category.categoryId);
+                    }
+                  },
+                },
+              ],
             },
           ]}
         />
