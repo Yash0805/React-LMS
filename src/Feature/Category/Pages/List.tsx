@@ -1,35 +1,21 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
-import { ApiService } from "Service";
+import { useNavigate } from "react-router-dom";
 import { Loader } from "Shared/Component/Loader/Loader";
 import { Grid } from "Shared/Component/Grid/Index";
 import Button from "Shared/Component/Button/Button";
-
-interface Category {
-  categoryId: number;
-  categoryName: string;
-}
+import { useStatesQuery } from "../queries";
 
 export default function CategoryList() {
-  const [categoryList, setCategoryList] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
-
   const navigate = useNavigate();
 
-  useEffect(() => {
-    ApiService.get<Category[]>("Category")
-      .then((data) => setCategoryList(data ?? []))
-      .finally(() => setLoading(false));
-  }, []);
+  const { data, isLoading } = useStatesQuery();
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center py-10">
         <Loader />
       </div>
     );
   }
-
 
   return (
     <div className="mt-10 px-6 text-white">
@@ -45,14 +31,13 @@ export default function CategoryList() {
         />
       </div>
 
-      {categoryList.length === 0 ? (
+      {!data || data.length === 0 ? (
         <div className="text-center py-10 text-slate-400">
           No Category Found
         </div>
       ) : (
-        <Grid<Category>
-          data={categoryList}
-          rowKey={(c) => c.categoryId}
+        <Grid<Master.Category>
+          data={data ?? []}
           columns={[
             {
               field: "categoryName",

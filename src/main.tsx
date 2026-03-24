@@ -1,9 +1,17 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router';
+import App from './App.tsx';
 
-createRoot(document.getElementById('root')!).render(
+
+const el = document.getElementById('root')!;
+createRoot(el).render(
   <StrictMode>
-    <App />
-  </StrictMode>,
-)
+    <BrowserRouter>
+      <QueryClientProvider client={new QueryClient()}>
+        <App />
+      </QueryClientProvider>{' '}
+    </BrowserRouter>
+  </StrictMode>
+);

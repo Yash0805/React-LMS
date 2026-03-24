@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Dashboard from "Feature/Dashboard/Index";
 import Category from "./Feature/Category/";
@@ -10,7 +10,6 @@ import Bookissue from "Feature/BookIssue";
 function App() {
   return (
     <>
-      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Mainlayout />}>
             <Route path="/Dashboard" element={<Dashboard />} />
@@ -20,7 +19,6 @@ function App() {
             <Route path="/BookIssue/*" element={<Bookissue />} />
           </Route>
         </Routes>
-      </BrowserRouter>
     </>
   );
 }
