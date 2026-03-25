@@ -1,33 +1,72 @@
-interface TextBoxProps {
+import type { Control, FieldValues, Path } from "react-hook-form";
+import { Controller } from "react-hook-form";
+
+interface TextBoxProps<TForm extends FieldValues> {
   label: string;
-  name: string;
+  name: Path<TForm>;
   placeholder?: string;
   value?: string;
   onChange?: (v: string) => void;
   disabled?: boolean;
+  control?: Control<TForm>;
+  errorMessage?: string;
 }
 
-export default function TextBox(props: TextBoxProps) {
+export default function TextBox<TForm extends FieldValues>(
+  props: TextBoxProps<TForm>
+) {
+  const { label, name, placeholder, value, onChange, disabled, control, errorMessage } = props;
+
   return (
     <div className="mb-4">
       <label
         className="block text-slate-300 text-sm font-medium mb-1"
-        htmlFor={props.name}
+        htmlFor={name}
       >
-        {props.label}
+        {label}
       </label>
 
-      <input
-        id={props.name}
-        name={props.name}
-        type="text"
-        placeholder={props.placeholder}
-        value={props.value ?? ""}
-        onChange={(e) => props.onChange?.(e.target.value)}
-        disabled={props.disabled}
-        className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-white 
-        focus:outline-none focus:ring-2 focus:ring-indigo-400 disabled:opacity-50"
-      />
+      {control ? (
+        <Controller
+          name={name}
+          control={control}
+          render={({ field, fieldState }) => (
+            <>
+              <input
+                {...field}
+                id={name}
+                type="text"
+                placeholder={placeholder}
+                disabled={disabled}
+                className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-white 
+                focus:outline-none focus:ring-2 focus:ring-indigo-400 disabled:opacity-50"
+              />
+              <div className="text-red-500 text-sm mt-1">
+                {fieldState.error?.message}
+              </div>
+            </>
+          )}
+        />
+      ) : (
+        <>
+          <input
+            id={name}
+            name={name}
+            type="text"
+            placeholder={placeholder}
+            value={value ?? ""}
+            onChange={(e) => onChange?.(e.target.value)}
+            disabled={disabled}
+            className="w-full px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-white 
+            focus:outline-none focus:ring-2 focus:ring-indigo-400 disabled:opacity-50"
+          />
+          {errorMessage && (
+            <div className="text-red-500 text-sm mt-1">
+              {errorMessage}
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }

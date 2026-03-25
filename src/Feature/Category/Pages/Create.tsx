@@ -1,11 +1,11 @@
-import { useState } from "react";
 import { useNavigate } from "react-router";
-import { ApiService } from "Service";
-import Button from "Shared/Component/Button/Button";
+import Form from "../Component/Form";
+import { useNewCategoryMutation } from "../queries";
+
+
 
 export default function Create() {
-  const [categoryName, setCategoryName] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+ const { mutateAsync } = useNewCategoryMutation();
 
   const navigate = useNavigate();
 
@@ -24,45 +24,14 @@ export default function Create() {
           ← Back to List
         </button>
       </div>
+ 
+     <Form
+      submitCaption="Create"
+      onSubmit={async category => {
+        await mutateAsync(category);
+      }}
+    />
 
-      <div className="flex justify-center">
-        <form
-          className="w-full max-w-lg bg-slate-900 p-8 rounded-2xl shadow-md hover:shadow-xl transition duration-300"
-          onSubmit={async (e) => {
-            e.preventDefault();
-
-            try {
-              setSubmitting(true);
-              await ApiService.post("Category", { categoryName });
-              navigate("/category/list");
-            } catch (ex) {
-              alert(ex);
-            } finally {
-              setSubmitting(false);
-            }
-          }}
-        >
-
-          <div className="mb-4">
-            <label className="block text-slate-300 text-sm font-medium mb-1">
-              Category Name
-            </label>
-
-            <input
-              type="text"
-              value={categoryName}
-              onChange={(e) => setCategoryName(e.target.value)}
-              disabled={submitting}
-              placeholder="Enter category name"
-              className="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-600 text-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            />
-          </div>
-
-          <div className="mt-6 flex justify-end">
-            <Button caption="Create" disabled={submitting} />
-          </div>
-        </form>
-      </div>
     </div>
   );
 }

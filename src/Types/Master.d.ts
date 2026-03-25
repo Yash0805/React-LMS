@@ -1,6 +1,10 @@
 declare namespace Master {
-  interface Category {
-    categoryId: number;
+  interface CategoryForm{
     categoryName: string;
   }
+  interface Category extends CategoryForm {
+    categoryId: number;
+    
+  }
+  
 }

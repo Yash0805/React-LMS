@@ -8,9 +8,12 @@ export default function CategoryList() {
   const navigate = useNavigate();
 
   const { data, isLoading } = useCategoryQuery();
-  const { isPending, mutateAsync } = useRemoveCategoryMutation();
+  const {
+    isPending: isDeleting,
+    mutateAsync: deleteCategory,
+  } = useRemoveCategoryMutation();
 
-  if (isLoading || isPending) {
+  if (isLoading || isDeleting) {
     return (
       <div className="flex justify-center items-center py-10">
         <Loader />
@@ -48,11 +51,18 @@ export default function CategoryList() {
               header: "Action",
               actions: [
                 {
+                  icon: "pi pi-pencil",
+                  className: "px-3 py-1 rounded",
+                  onClick: (category) => {
+                    navigate(`/category/Edit/${category.categoryId}`);
+                  },
+                },
+                {
                   icon: "pi pi-trash",
-                  className:" px-3 py-1 rounded",
+                  className: "px-3 py-1 rounded",
                   onClick: async (category) => {
                     if (confirm("Are you sure you want to delete?")) {
-                      await mutateAsync(category.categoryId);
+                      await deleteCategory(category.categoryId);
                     }
                   },
                 },
