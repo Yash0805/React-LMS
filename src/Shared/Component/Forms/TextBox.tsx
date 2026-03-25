@@ -34,6 +34,7 @@ export default function TextBox<TForm extends FieldValues>(
             <>
               <input
                 {...field}
+                 value={field.value ?? ""}
                 id={name}
                 type="text"
                 placeholder={placeholder}

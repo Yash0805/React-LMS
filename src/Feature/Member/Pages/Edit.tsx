@@ -1,37 +1,34 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useUpdateCategoryMutation } from "../queries";
-import Form from "../Component/Form";
-import { ApiService } from "Service";
+import { useUpdateMemberMutation } from "../queries";
 import { useCallback } from "react";
+import { ApiService } from "Service";
+import Form from "../Component/Form";
 
-
-interface EditRouteParams extends Record<string, string>{
-    categoryId:string;  
-}   
-
+interface EditRouteParams extends Record<string,string>{
+    memberId:string;
+}
 export default function Edit(){
-    const {categoryId} = useParams<EditRouteParams>();
-    const {mutateAsync} = useUpdateCategoryMutation(parseInt(categoryId!,10))
-
-  const navigate = useNavigate();
+     const {memberId} = useParams<EditRouteParams>();
+    const {mutateAsync} = useUpdateMemberMutation(parseInt(memberId!,10))
+    const navigate = useNavigate();
     const handleLoad = useCallback(
     async function () {
-      const data = await ApiService.get<Master.Category>(
-        'Category/' + categoryId
+      const data = await ApiService.get<Master.Member>(
+        'Members/' + memberId
       );
       if (!data) {
         return {
-          categoryId: 0,
-          categoryName: '',
+          memberId: 0,
+          memberName: '',
+          memberType:'',
         };
       }
 
       return data;
     },
-    [categoryId]
+    [memberId]
   );
-
-  return (
+   return (
     <div className="mt-10 px-6 text-white">
     <div className="flex justify-between items-center mb-10">
         <h1 className="text-4xl font-bold bg-linear-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
@@ -39,7 +36,7 @@ export default function Edit(){
         </h1>
 
         <button
-          onClick={() => navigate("/category/list")}
+          onClick={() => navigate("/member/list")}
           className="text-slate-400 hover:text-white text-sm"
         >
           ← Back to List
@@ -47,12 +44,12 @@ export default function Edit(){
       </div>
     <Form
       onLoad={handleLoad}
-      onSubmit={async category => {
-        await mutateAsync(category);
+      onSubmit={async member => {
+        await mutateAsync(member);
       }}
       submitCaption="Update"
     />
     </div>
     
   );
-} 
+}

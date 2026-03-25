@@ -1,27 +1,26 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ApiService } from "Service";
-const QUERY_KEY = ["Category"];
+const QUERY_KEY = ["Member"];
 
-export function useCategoryQuery() {
+export function useMemberQuery() {
   return useQuery({
     queryKey: QUERY_KEY,
     queryFn: async () => {
-      return await ApiService.get<Master.Category[]>("Category");
+      return await ApiService.get<Master.Member[]>("Members");
     },
   });
 }
 
-export function useRemoveCategoryMutation() {
+export function useRemoveMemberMutation() {
   const queryClient = useQueryClient();
   const rs = useMutation({
-    mutationFn: (categoryId: number) =>
-      ApiService.del("Category/" + categoryId),
-    onSuccess: (_, categoryId) => {
-      const data = queryClient.getQueryData<Master.Category[]>(QUERY_KEY);
+    mutationFn: (memberId: number) => ApiService.del("Members/" + memberId),
+    onSuccess: (_, memberId) => {
+      const data = queryClient.getQueryData<Master.Member[]>(QUERY_KEY);
       if (!data) {
         return;
       }
-      const newData = data.filter((item) => item.categoryId !== categoryId);
+      const newData = data.filter((item) => item.memberId !== memberId);
       queryClient.setQueryData(QUERY_KEY, newData);
     },
   });
@@ -29,24 +28,24 @@ export function useRemoveCategoryMutation() {
   return rs;
 }
 
-export function useUpdateCategoryMutation(categoryId: number) {
+export function useUpdateMemberMutation(memberId: number) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (category: Master.CategoryForm) =>
-      await ApiService.put<Master.Category>(
-        "Category/" + categoryId,
-        category,
+    mutationFn: async (member: Master.MemberForm) =>
+      await ApiService.put<Master.Member[]>(
+        "Members/" + memberId,
+        member,
       ),
     onSuccess: (result) => {
       if (!result) {
         return;
       }
-      const existing = queryClient.getQueryData<Master.Category[]>(QUERY_KEY);
+      const existing = queryClient.getQueryData<Master.Member[]>(QUERY_KEY);
       if (!existing) {
         return;
       }
       const index = existing.findIndex(
-        (item) => item.categoryId === categoryId,
+        (item) => item.memberId === memberId,
       );
       const first = existing.slice(0, index);
       const next = existing.slice(index + 1);
@@ -54,17 +53,16 @@ export function useUpdateCategoryMutation(categoryId: number) {
     },
   });
 }
-
-export function useNewCategoryMutation(){
+export function useNewMemberMutation(){
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (category: Master.CategoryForm) =>
-      await ApiService.post("Category", category),
+    mutationFn: async (member: Master.MemberForm) =>
+      await ApiService.post("Members", member),
      onSuccess: (result) => {
       if (!result) {
         return;
       }
-      const existing = queryClient.getQueryData<Master.Category[]>(QUERY_KEY);
+      const existing = queryClient.getQueryData<Master.Member[]>(QUERY_KEY);
       if (!existing) {
         return;
       }

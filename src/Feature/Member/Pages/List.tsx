@@ -1,29 +1,20 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { ApiService } from "Service";
 import { Loader } from "Shared/Component/Loader/Loader";
 import { Grid } from "Shared/Component/Grid/Index";
 import Button from "Shared/Component/Button/Button";
-
-interface MemberList {
-  memberId: number;
-  memberName: string;
-  memberType: string;
-}
+import { useMemberQuery, useRemoveMemberMutation } from "../queries";
 
 export default function MemberList() {
-  const [memberList, setMemberList] = useState<MemberList[]>([]);
-  const [loading, setLoading] = useState(true);
-
   const navigate = useNavigate();
+  const {data, isLoading} = useMemberQuery();
+  const{
+    isPending: isDeleting,
+    mutateAsync: deleteMember,
+  }= useRemoveMemberMutation();
 
-  useEffect(() => {
-    ApiService.get<MemberList[]>("Members")
-      .then((data) => setMemberList(data ?? []))
-      .finally(() => setLoading(false));
-  }, []);
 
-  if (loading) {
+
+  if (isLoading || isDeleting) {
     return (
       <div className="flex justify-center items-center py-10">
         <Loader />
@@ -47,14 +38,13 @@ export default function MemberList() {
         />
       </div>
 
-      {memberList.length === 0 ? (
+      {!data || data.length === 0 ? (
         <div className="text-center py-10 text-slate-400">
           No Members Found
         </div>
       ) : (
-        <Grid<MemberList>
-          data={memberList}
-          rowKey={(m) => m.memberId}
+        <Grid<Master.Member>
+          data={data ?? []}
           columns={[
             {
               field: "memberName",
@@ -63,6 +53,27 @@ export default function MemberList() {
             {
               field: "memberType",
               header: "Member Type",
+            },
+              {
+              header: "Action",
+              actions: [
+                {
+                  icon: "pi pi-pencil",
+                  className: "px-3 py-1 rounded",
+                  onClick: (member) => {
+                    navigate(`/member/Edit/${member.memberId}`);
+                  },
+                },
+                {
+                  icon: "pi pi-trash",
+                  className: "px-3 py-1 rounded",
+                  onClick: async (member) => {
+                    if (confirm("Are you sure you want to delete?")) {
+                      await deleteMember(member.memberId);
+                    }
+                  },
+                },
+              ],
             },
           ]}
         />

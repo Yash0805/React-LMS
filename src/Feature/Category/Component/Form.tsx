@@ -22,7 +22,7 @@ export default function Form({ onLoad, onSubmit, ...props }: FromProps) {
                     navigate('../list');
                 })}
             >
-                <TextBox label="Name" {...get('categoryName')} />
+                <TextBox label="Category Name" {...get('categoryName')} />
 
                 <Button caption={props.submitCaption} disabled={submitting} />
             </form>
