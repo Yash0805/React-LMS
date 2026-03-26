@@ -4,12 +4,12 @@ import TextBox from "Shared/Component/Forms/TextBox";
 import { useCategoryForm } from "./Category.Form";
 import Button from "Shared/Component/Button/Button";
 
-interface FromProps {
+interface FormProps {
     onSubmit: (p: Master.CategoryForm) => Promise<void>
     onLoad?: () => Promise<Master.Category>;
     submitCaption: string;
 }
-export default function Form({ onLoad, onSubmit, ...props }: FromProps) {
+export default function Form({ onLoad, onSubmit, ...props }: FormProps) {
     const { get, handleSubmit, submitting } = useCategoryForm(onLoad);
     const navigate = useNavigate();
 

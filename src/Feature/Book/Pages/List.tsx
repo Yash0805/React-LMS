@@ -1,41 +1,21 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ApiService } from "Service";
+import { useBooksQuery, useRemoveBooksMutation } from "../queries";
 import Button from "Shared/Component/Button/Button";
 import { Grid } from "Shared/Component/Grid/Index";
 import { Loader } from "Shared/Component/Loader/Loader";
 
-
-
-interface BookList {
-  bookId: number;
-  bookName: string;
-  publisher: string;
-  author: string;
-  price: number;
-  categoryId: number;
-  categoryName: string;
-}
-
 export default function BookList() {
-  const [bookList, setBookList] = useState<BookList[]>([]);
-  const [loading, setLoading] = useState(true);
-
   const navigate = useNavigate();
-  useEffect(() => {
-    ApiService.get<BookList[]>("Books")
-      .then(data => setBookList(data ?? []))
-      .finally(() => setLoading(false));
-  }, []);
+  const { data, isLoading } = useBooksQuery();
+  const { isPending: isDeleting, mutateAsync: deleteBooks, } = useRemoveBooksMutation();
 
-  if (loading) {
+  if (isLoading || isDeleting) {
     return (
       <div className="flex justify-center items-center py-10">
         <Loader />
       </div>
-    );
+    )
   }
-
 
   return (
     <div className="mt-10 px-6 text-white">
@@ -44,24 +24,21 @@ export default function BookList() {
         <h1 className="text-4xl font-bold bg-linear-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
           Book List
         </h1>
+
         <Button
-          caption="+ Add Member"
+          caption="+ Add Book"
           type="button"
           onClick={() => navigate("/Book/create")}
         />
       </div>
 
-      {bookList.length === 0 ? (
+      {!data || data.length === 0 ? (
         <div className="text-center py-10 text-slate-400">
           No Books Found
         </div>
       ) : (
-
-
-
-        <Grid<BookList>
-          data={bookList}
-          rowKey={(b) => b.bookId}
+        <Grid<Master.Book>
+          data={data ?? []}
           columns={[
             {
               field: "bookName",
@@ -83,6 +60,28 @@ export default function BookList() {
               field: "categoryName",
               header: "Category",
             },
+            {
+              header: "Action",
+              actions: [
+                {
+                  icon: "pi pi-pencil",
+                  className: "px-3 py-1 rounded",
+                  onClick: (books) => {
+                    navigate(`/Book/edit/${books.bookId}`);
+                  },
+                },
+                {
+                  icon: "pi pi-trash",
+                  className: "px-3 py-1 rounded",
+                  onClick: async (books) => {
+                    if (confirm("Are you sure you want to delete?")) {
+                      await deleteBooks(books.bookId);
+                    }
+                  }
+                }
+              ]
+            }
+
           ]}
         />
       )}

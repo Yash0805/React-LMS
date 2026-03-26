@@ -4,13 +4,13 @@ import Button from "Shared/Component/Button/Button";
 import { useMemberForm } from "./Member.Form";
 import { Controller } from "react-hook-form";
 
-interface FromProps {
+interface FormProps {
     onSubmit: (p: Master.MemberForm) => Promise<void>;
     onLoad?: () => Promise<Master.Member>;
     submitCaption: string;
 }
 
-export default function Form({ onLoad, onSubmit, ...props }: FromProps) {
+export default function Form({ onLoad, onSubmit, ...props }: FormProps) {
     const { get, handleSubmit, submitting } = useMemberForm(onLoad);
     const navigate = useNavigate();
 

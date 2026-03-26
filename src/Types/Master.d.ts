@@ -13,4 +13,17 @@ declare namespace Master {
   interface Member extends MemberForm {
     memberId: number;
   }
+  interface BookForm {
+    bookName: string;
+    publisher: string;
+    author: string;
+    price: number;
+    categoryId?: number;
+    categoryName?: string;
+  }
+
+  interface Book extends BookForm {
+    bookId: number;
+
+  }
 }
