@@ -1,36 +1,22 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ApiService } from "Service";
+import { Loader } from "Shared/Component/Loader/Loader";
+import { useBookIssueQuery, useRemoveBookIssueMutation } from "../queries";
 import Button from "Shared/Component/Button/Button";
 import { Grid } from "Shared/Component/Grid/Index";
-import { Loader } from "Shared/Component/Loader/Loader";
 
-interface BookissueList {
-  issueId: number;
-  memberId: number;
-  bookId: number;
-  issueDate: number;
-  returnDate: number;
-  renewCount: number;
-  renewDate: number;
-  status: string;
-  memberName: string;
-  memberType: string;
-  bookName: string;
-}
 
-export default function BookissueList() {
-  const [bookIssueList, setBookissueList] = useState<BookissueList[]>([]);
-  const [loading, setLoading] = useState(true);
-
+export default function BookIssueList() {
   const navigate = useNavigate();
+  const { data, isLoading } = useBookIssueQuery();
+  const { isPending: isDeleting, mutateAsync: deleteBooks, } = useRemoveBookIssueMutation();
 
-  useEffect(() => {
-    ApiService.get<BookissueList[]>("BookIssue")
-      .then((data) => setBookissueList(data ?? []))
-      .finally(() => setLoading(false));
-  }, []);
-
+  if (isLoading || isDeleting) {
+    return (
+      <div className="flex justify-center items-center py-10">
+        <Loader />
+      </div>
+    )
+  }
   const formatDate = (date: number) => {
     if (!date) return "-";
     return new Date(date).toLocaleDateString("en-GB");
@@ -49,14 +35,6 @@ export default function BookissueList() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center py-10">
-        <Loader />
-      </div>
-    );
-  }
-
   return (
     <div className="px-6 text-white">
       <div className="flex justify-between items-center mb-10">
@@ -71,14 +49,13 @@ export default function BookissueList() {
         />
       </div>
 
-      {bookIssueList.length === 0 ? (
+      {!data || data.length === 0 ? (
         <div className="text-center py-10 text-slate-400">
           No Book Issue Found
         </div>
       ) : (
-        <Grid<BookissueList>
-          data={bookIssueList}
-          rowKey={(m) => m.issueId}
+        <Grid<Master.BookIssue>
+          data={data ?? []}
           columns={[
             {
               field: "memberName",
@@ -124,6 +101,28 @@ export default function BookissueList() {
                 </span>
               ),
             },
+            {
+              header: "Action",
+              actions: [
+                {
+                  icon: "pi pi-pencil",
+                  className: "px-3 py-1 rounded",
+                  onClick: (bookissue) => {
+                    console.log(bookissue)
+                    navigate(`/BookIssue/edit/${bookissue.issueId}`);
+                  },
+                },
+                {
+                  icon: "pi pi-trash",
+                  className: "px-3 py-1 rounded",
+                  onClick: async (bookissue) => {
+                    if (confirm("Are you sure you want to delete?")) {
+                      await deleteBooks(bookissue.issueId);
+                    }
+                  }
+                }
+              ]
+            }
           ]}
         />
       )}

@@ -24,6 +24,21 @@ declare namespace Master {
 
   interface Book extends BookForm {
     bookId: number;
+  }
 
+  interface BookIssueForm {
+    memberId: number;
+    bookId: number;
+    issueDate?: string;
+    returnDate?: string;
+    renewCount?: number;
+    renewDate?: number;
+    status?: string;
+    memberName?: string;
+    memberType?: string;
+    bookName?: string;
+  }
+  interface BookIssue extends BookIssueForm {
+    issueId: number;
   }
 }
