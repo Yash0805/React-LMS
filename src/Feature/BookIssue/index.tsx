@@ -11,6 +11,7 @@ export default function Member() {
       <Route path="list" element={<List />} />
       <Route path="create" element={<Create />} />
       <Route path="edit/:issueId" element={<Edit />} />
+
     </Routes>
   );
 }

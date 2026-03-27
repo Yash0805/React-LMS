@@ -7,7 +7,7 @@ const Dashboard: React.FC = () => {
       <main className="flex-1 p-6">
 
         <h1 className="text-3xl font-bold mb-6 
-        bg-linear-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+        bg-white text-transparent bg-clip-text">
           Dashboard
         </h1>
 
@@ -25,12 +25,12 @@ const Dashboard: React.FC = () => {
 
           <div className="bg-linear-to-br from-slate-900 via-[#0f172a] to-[#020617] p-5 rounded-xl hover:scale-105 transition">
             <p className="text-gray-400">Books Issued</p>
-            <h2 className="text-2xl font-bold text-indigo-400">10</h2>
+            <h2 className="text-2xl font-bold ">10</h2>
           </div>
 
           <div className="bg-linear-to-br from-slate-900 via-[#0f172a] to-[#020617] p-5 rounded-xl hover:scale-105 transition">
             <p className="text-gray-400">Overdue</p>
-            <h2 className="text-2xl font-bold text-rose-400">0</h2>
+            <h2 className="text-2xl font-bold ">0</h2>
           </div>
 
         </div>
@@ -99,12 +99,12 @@ const Dashboard: React.FC = () => {
                 <tr className="border-b border-slate-700">
                   <td className="py-2">Sarah</td>
                   <td>Clean Code</td>
-                  <td className="text-rose-400">10</td>
+                  <td >10</td>
                 </tr>
                 <tr className="border-b border-slate-700">
                   <td className="py-2">David</td>
                   <td>1984</td>
-                  <td className="text-rose-400">7</td>
+                  <td >7</td>
                 </tr>
               </tbody>
             </table>

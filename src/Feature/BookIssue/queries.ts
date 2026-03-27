@@ -62,3 +62,41 @@ export function useNewBookIssueMutation() {
     },
   });
 }
+export function useReturnBookIssueMutation(issueId: number) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (bookissue: Master.BookIssue) =>
+      await ApiService.patch<Master.BookIssue>(
+        "BookIssue/" + issueId,
+        bookissue,
+      ),
+
+    onSuccess: (result) => {
+      if (!result) return;
+
+      queryClient.setQueryData<Master.BookIssue[]>(["BookIssue"], (old = []) =>
+        old.map((item) => (item.issueId === result.issueId ? result : item)),
+      );
+    },
+  });
+}
+export function useRenewBookIssueMutation(issueId: number) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (bookissue: Master.BookIssue) =>
+      await ApiService.patch<Master.BookIssue>(
+        "BookIssue/Renewed/" + issueId,
+        bookissue,
+      ),
+
+    onSuccess: (result) => {
+      if (!result) return;
+
+      queryClient.setQueryData<Master.BookIssue[]>(["BookIssue"], (old = []) =>
+        old.map((item) => (item.issueId === result.issueId ? result : item)),
+      );
+    },
+  });
+}

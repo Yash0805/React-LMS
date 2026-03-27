@@ -3,12 +3,20 @@ import { Loader } from "Shared/Component/Loader/Loader";
 import { useBookIssueQuery, useRemoveBookIssueMutation } from "../queries";
 import Button from "Shared/Component/Button/Button";
 import { Grid } from "Shared/Component/Grid/Index";
+import Status from "./Status";
+import { useState } from "react";
 
 
 export default function BookIssueList() {
   const navigate = useNavigate();
   const { data, isLoading } = useBookIssueQuery();
+  
   const { isPending: isDeleting, mutateAsync: deleteBooks, } = useRemoveBookIssueMutation();
+
+  const [isOpen,setIsOpen] = useState(false)
+
+  const [selectedId,setSelectedId] = useState<number|null>(null)
+
 
   if (isLoading || isDeleting) {
     return (
@@ -38,7 +46,7 @@ export default function BookIssueList() {
   return (
     <div className="px-6 text-white">
       <div className="flex justify-between items-center mb-10">
-        <h1 className="text-4xl font-bold bg-linear-to-r from-indigo-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+        <h1 className="text-4xl font-bold bg-white text-transparent bg-clip-text">
           Book Issue List
         </h1>
 
@@ -120,12 +128,27 @@ export default function BookIssueList() {
                       await deleteBooks(bookissue.issueId);
                     }
                   }
+                },
+                {
+                  icon: "pi pi-calendar",
+                  className: "px-3 py-1 rounded",
+                  onClick: (bookissue) => {
+                    console.log(bookissue)
+                    setSelectedId(bookissue.issueId);
+                    setIsOpen(true);
+                  },
                 }
               ]
             }
           ]}
         />
       )}
+      <Status
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        issueId={selectedId}
+      />
     </div>
   );
+
 }
