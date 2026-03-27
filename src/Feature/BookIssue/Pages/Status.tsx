@@ -27,9 +27,9 @@ export default function Status({ isOpen, onClose, issueId }: Props) {
 
     try {
       if (action === "return") {
-        await returnBook(issueId);
+        await returnBook();
       } else {
-        await renewBook(issueId);
+        await renewBook();
       }
       onClose();
     } catch (err) {
