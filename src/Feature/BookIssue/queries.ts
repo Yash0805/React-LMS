@@ -36,11 +36,18 @@ export function useUpdateBookIssueMutation(issueId: number) {
       await ApiService.put<Master.BookIssue>("BookIssue/" + issueId, bookissue),
 
     onSuccess: (result) => {
-      if (!result) return;
+      if (!result) {
+        return;
+      }
 
-      queryClient.setQueryData<Master.BookIssue[]>(["BookIssue"], (old = []) =>
-        old.map((item) => (item.issueId === result.issueId ? result : item)),
-      );
+      const existing = queryClient.getQueryData<Master.BookIssue[]>(QUERY_KEY);
+      if(!existing){
+        return;
+      }
+      const index = existing.findIndex(item => item.issueId === issueId)
+      const first = existing.slice(0,index);
+      const next = existing.slice(index+1)
+      queryClient.setQueryData(QUERY_KEY,[...first,result,...next]);
     },
   });
 }
@@ -75,11 +82,14 @@ export function useReturnBookIssueMutation(issueId: number) {
     onSuccess: (result) => {
       if (!result) return;
 
-      queryClient.setQueryData<Master.BookIssue[]>(["BookIssue"], (old = []) =>
-        old.map((item) =>
-          item.issueId === result.issueId ? result : item
-        )
-      );
+      const existing = queryClient.getQueryData<Master.BookIssue[]>(QUERY_KEY);
+      if(!existing){
+        return;
+      }
+      const index = existing.findIndex(item => item.issueId === issueId)
+      const first = existing.slice(0,index);
+      const next = existing.slice(index+1)
+      queryClient.setQueryData(QUERY_KEY,[...first,result,...next]);
     },
   });
 }
@@ -97,11 +107,14 @@ export function useRenewBookIssueMutation(issueId: number) {
     onSuccess: (result) => {
       if (!result) return;
 
-      queryClient.setQueryData<Master.BookIssue[]>(["BookIssue"], (old = []) =>
-        old.map((item) =>
-          item.issueId === result.issueId ? result : item
-        )
-      );
+      const existing = queryClient.getQueryData<Master.BookIssue[]>(QUERY_KEY);
+      if(!existing){
+        return;
+      }
+      const index = existing.findIndex(item => item.issueId === issueId)
+      const first = existing.slice(0,index);
+      const next = existing.slice(index+1)
+      queryClient.setQueryData(QUERY_KEY,[...first,result,...next]);
     },
   });
 }

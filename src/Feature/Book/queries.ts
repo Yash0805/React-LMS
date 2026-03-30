@@ -39,10 +39,15 @@ export function useUpdateBooksMutation(bookId: number) {
     onSuccess: (result) => {
       if (!result) return;
 
-      queryClient.setQueryData<Master.Book[]>(["Books"], (old = []) =>
-        old.map((item) => (item.bookId === result.bookId ? result : item)),
-      );
-    },
+      const existing = queryClient.getQueryData<Master.Book[]>(QUERY_KEY);
+      if(!existing){
+        return;
+      }
+      const index = existing.findIndex(item => item.bookId === bookId)
+      const first = existing.slice(0,index);
+      const next = existing.slice(index+1)
+      queryClient.setQueryData(QUERY_KEY,[...first,result,...next]);
+    }
   });
 }
 
